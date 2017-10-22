@@ -7,7 +7,7 @@ class CreditCardAdmin(admin.ModelAdmin):
     search_fields = ('national_id', 'name_on_card')
 
 class FileUploadAdmin(admin.ModelAdmin):
-    list_display = ('file_name', 'csv_file', 'uploaded_at')
+    list_display = ('csv_file', 'uploaded_at')
     #search_fields = ('national_id', 'name_on_card')
 
 admin.site.register(CreditCard, CreditCardAdmin)
