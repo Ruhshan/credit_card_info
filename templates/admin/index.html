@@ -63,9 +63,11 @@
             {% for entry in admin_log %}
             <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
                 {% if entry.is_deletion or not entry.get_admin_url %}
-                    {{ entry.object_repr }}
+                    Deleted {{ entry.object_repr }}
+                {% elif entry.is_change %}
+                    Edited {{ entry.object_repr }}
                 {% else %}
-                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                    Added {{ entry.object_repr }}
                 {% endif %}
                 <br/>
                 {% if entry.content_type %}
