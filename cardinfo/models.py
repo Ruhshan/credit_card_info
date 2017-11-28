@@ -37,13 +37,13 @@ class CreditCardManager(models.Manager):
 
 
 class CreditCard(models.Model):
-    national_id = models.CharField(max_length=13, verbose_name="National ID")
-    name_on_card = models.CharField(max_length=127, verbose_name="Name On card")
-    card_number = models.CharField(max_length=127, verbose_name="Card Number")
+    national_id = models.CharField(max_length=13, verbose_name="National ID ")
+    name_on_card = models.CharField(max_length=127, verbose_name="Name On card ")
+    card_number = models.CharField(max_length=127, verbose_name="Card Number ")
     expire_on = models.DateField(verbose_name="Expire On")
-    card_cif = models.CharField(max_length=127, verbose_name="Card CIF")
-    card_cvv = models.CharField(max_length=127, verbose_name="CVV")
-    bank_cif = models.CharField(max_length=127, verbose_name="Bank CIF")
+    card_cif = models.CharField(max_length=127, verbose_name="Card CIF ")
+    card_cvv = models.CharField(max_length=127, verbose_name="CVV ")
+    bank_cif = models.CharField(max_length=127, verbose_name="Bank CIF ")
 
     objects = CreditCardManager()
 
@@ -51,8 +51,8 @@ class CreditCard(models.Model):
         return self.name_on_card
 
 class FileUpload(models.Model):
-    file_name=models.CharField(max_length=127, verbose_name="File Name", null=True, blank=True)
-    csv_file = models.FileField(upload_to='uploads/', validators=[FileExtensionValidator(allowed_extensions=['csv'])], verbose_name="File")
+    file_name=models.CharField(max_length=127, verbose_name="File Name ", null=True, blank=True)
+    csv_file = models.FileField(upload_to='uploads/', validators=[FileExtensionValidator(allowed_extensions=['csv'])], verbose_name="File ")
     uploaded_at = models.DateField(auto_now_add=True, null=True, blank=True)
 
     def __unicode__(self):
