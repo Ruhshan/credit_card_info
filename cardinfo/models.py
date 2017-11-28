@@ -1,11 +1,14 @@
+from django.contrib.contenttypes.models import ContentType
 from django.core.validators import FileExtensionValidator
 from django.db import models
 import os
 from datetime import datetime
-
-
+from django.contrib.admin.models import LogEntry, ADDITION
 import pandas as pd
+from django.conf import settings
+
 # Create your models here.
+from django.utils.encoding import force_text
 
 
 class CreditCardManager(models.Manager):
@@ -17,10 +20,19 @@ class CreditCardManager(models.Manager):
         df = pd.DataFrame(pd.read_csv(str(csv_file.name), header=0))
 
         for index, row in df.iterrows():
-            print(row['NID'], row[1])
-
-            self.get_or_create(national_id=row[0], name_on_card=row[1], card_number=row[2], expire_on=datetime.strptime(str(row[3]),'%d/%m/%y'),
+            card, created = self.get_or_create(national_id=row[0], name_on_card=row[1], card_number=row[2], expire_on=datetime.strptime(str(row[3]),'%d/%m/%y'),
                         card_cif=row[4], card_cvv=row[5], bank_cif=row[6])
+            if created:
+                LogEntry.objects.log_action(
+                    user_id=int(settings.UIDX),
+                    content_type_id=ContentType.objects.get_for_model(card).pk,
+                    object_id=card.pk,
+                    object_repr=force_text(card),
+                    action_flag=ADDITION,
+                    change_message="Added."
+                )
+
+
 
 
 
