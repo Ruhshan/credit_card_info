@@ -7,6 +7,7 @@ from django.contrib.admin.models import LogEntry, ADDITION
 import pandas as pd
 from django.conf import settings
 
+user_id = ''
 # Create your models here.
 from django.utils.encoding import force_text
 
@@ -24,7 +25,7 @@ class CreditCardManager(models.Manager):
                         card_cif=row[4], card_cvv=row[5], bank_cif=row[6])
             if created:
                 LogEntry.objects.log_action(
-                    user_id=int(settings.UIDX),
+                    user_id=int(user_id),
                     content_type_id=ContentType.objects.get_for_model(card).pk,
                     object_id=card.pk,
                     object_repr=force_text(card),
