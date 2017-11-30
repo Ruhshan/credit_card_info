@@ -1,0 +1,45 @@
+from django import forms
+from bankinfo.models import *
+
+
+class OperatingHourForm(forms.ModelForm):
+    class Meta:
+        model = OperatingHour
+        fields = ['day', 'start', 'end']
+
+
+class BaseForm(forms.Form):
+    area = forms.CharField(max_length=50, label="Area ")
+    address = forms.CharField(widget=forms.Textarea)
+    district = forms.CharField(max_length=50, label="District ")
+    latitude = forms.FloatField(label="Latitude ", initial=0.00)
+    longitude = forms.FloatField(label="longitude ", initial=0.00)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.location:
+            for f, d in self.instance.location.items():
+                self.fields[f].initial = d
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        fieldnames = ["area", "address", "district", "latitude", "longitude"]
+        instance.location = {fieldname: self.cleaned_data[fieldname] for fieldname in fieldnames}
+
+        if commit:
+            instance.save()
+        return instance
+
+
+class BranchForm(BaseForm, forms.ModelForm):
+    class Meta:
+        model = Branch
+        exclude = ["location"]
+
+
+class AtmBoothForm(BaseForm, forms.ModelForm):
+    class Meta:
+        model = AtmBooth
+        exclude = ["location"]
+

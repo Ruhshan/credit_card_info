@@ -35,17 +35,19 @@ class OperatingHour(models.Model):
     end = models.TimeField(verbose_name="End ")
     details = models.ForeignKey(BankDetails, verbose_name="Operating Hours ", related_name="operating_hours")
 
+
 class Branch(models.Model):
-    bank = models.ForeignKey(Bank, verbose_name="Bank ")
+    bank = models.ForeignKey(Bank, verbose_name="Bank ", related_name="branches")
     name = models.CharField(max_length=127, verbose_name="Branch Name ")
-    address = models.TextField(verbose_name="Branch Address")
+    status = models.BooleanField(default=True, verbose_name= "Status ")
+    location = JSONField(verbose_name="Location ")
+    services = JSONField(verbose_name="Services ")
 
     def __str__(self):
         return "{} , {} Branch".format(self.bank.name, self.name)
 
     class Meta:
         verbose_name_plural = "Branches"
-
 
 class AtmBooth(models.Model):
     bank = models.ForeignKey(Bank, verbose_name="Bank ", related_name="atm_booths")
