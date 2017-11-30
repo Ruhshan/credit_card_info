@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static "admin/css/login2.css" %}">
+</head>
+<body>
+<img src="{% static "admin/img/circle_Logo.png" %}" class="logo" alt="">
+
+<div class="form-container">
+    <br><br><br>
+    <p>
+        Sign In
+    </p>
+    <form>
+        <input type="text" placeholder="User Id" class="input-jbl-login" />
+        <input type="text" placeholder="PIN"class="input-jbl-login" />
+        <button class="sign-in">Sign In</button>
+        <p class="forgot">
+            Forgot Password?
+        </p>
+        <button class="login"><img src="{% static "admin/img/connect-logo.svg" %}" alt="" class="connect"> </button>
+    </form>
+</div>
+
+
+</body>
+</html>

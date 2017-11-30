@@ -1,66 +1,99 @@
-{% extends "admin/base_site.html" %}
-{% load i18n static %}
+{#{% extends "admin/base_site.html" %}#}
+{#{% load i18n static %}#}
+{##}
+{#{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login2.css" %}" />#}
+{#{{ form.media }}#}
+{#{% endblock %}#}
+{##}
+{#{% block bodyclass %}{{ block.super }} login{% endblock %}#}
+{##}
+{#{% block usertools %}{% endblock %}#}
+{##}
+{#{% block nav-global %}{% endblock %}#}
+{##}
+{#{% block content_title %}{% endblock %}#}
+{##}
+{#{% block breadcrumbs %}{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#{% if form.errors and not form.non_field_errors %}#}
+{#<p class="errornote">#}
+{#{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}#}
+{#</p>#}
+{#{% endif %}#}
+{##}
+{#{% if form.non_field_errors %}#}
+{#{% for error in form.non_field_errors %}#}
+{#<p class="errornote">#}
+{#    {{ error }}#}
+{#</p>#}
+{#{% endfor %}#}
+{#{% endif %}#}
+{##}
+{#<div id="content-main">#}
+{##}
+{#{% if user.is_authenticated %}#}
+{#<p class="errornote">#}
+{#{% blocktrans trimmed %}#}
+{#    You are authenticated as {{ username }}, but are not authorized to#}
+{#    access this page. Would you like to login to a different account?#}
+{#{% endblocktrans %}#}
+{#</p>#}
+{#{% endif %}#}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
-{{ form.media }}
-{% endblock %}
+{#<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}#}
+{#  <div class="form-row">#}
+{#    {{ form.username.errors }}#}
+{#    {{ form.username.label_tag }} {{ form.username }}#}
+{#  </div>#}
+{#  <div class="form-row">#}
+{#    {{ form.password.errors }}#}
+{#    {{ form.password.label_tag }} {{ form.password }}#}
+{#    <input type="hidden" name="next" value="{{ next }}" />#}
+{#  </div>#}
+{#  {% url 'admin_password_reset' as password_reset_url %}#}
+{#  {% if password_reset_url %}#}
+{#  <div class="password-reset-link">#}
+{#    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>#}
+{#  </div>#}
+{#  {% endif %}#}
+{#  <div class="submit-row">#}
+{#    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />#}
+{#  </div>#}
+{#</form>#}
 
-{% block bodyclass %}{{ block.super }} login{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Jamuna Bank Mobile App login</title>
+    <link rel="stylesheet" href="{% static "admin/css/login2.css" %}">
+</head>
+<body>
+<img src="{% static "admin/img/circle_Logo.png" %}" class="logo" alt="">
 
-{% block usertools %}{% endblock %}
 
-{% block nav-global %}{% endblock %}
+<div class="form-container">
+    <br><br><br>
+    <p>
+        Sign In
+    </p>
+    <form action="{{ app_path }}" method="post" id="login-form">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="User Id" autofocus class="input-jbl-login" maxlength="254" required id="id_username" />
+         <input type="password" placeholder="PIN"class="input-jbl-login" name="password" required id="id_password" />
+        <button class="sign-in">Sign In</button>
+        <!--input type="submit" class="sign-in" value="Sign in" /-->
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p class="forgot">
 
-{% block content_title %}{% endblock %}
-
-{% block breadcrumbs %}{% endblock %}
-
-{% block content %}
-{% if form.errors and not form.non_field_errors %}
-<p class="errornote">
-{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-</p>
-{% endif %}
-
-{% if form.non_field_errors %}
-{% for error in form.non_field_errors %}
-<p class="errornote">
-    {{ error }}
-</p>
-{% endfor %}
-{% endif %}
-
-<div id="content-main">
-
-{% if user.is_authenticated %}
-<p class="errornote">
-{% blocktrans trimmed %}
-    You are authenticated as {{ username }}, but are not authorized to
-    access this page. Would you like to login to a different account?
-{% endblocktrans %}
-</p>
-{% endif %}
-
-<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-row">
-    {{ form.username.errors }}
-    {{ form.username.label_tag }} {{ form.username }}
-  </div>
-  <div class="form-row">
-    {{ form.password.errors }}
-    {{ form.password.label_tag }} {{ form.password }}
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-  <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
-  </div>
-</form>
+        </p>
+        <p class="login"><img src="{% static "admin/img/connect-logo.svg" %}" alt=""> </p>
+    </form>
+</div>
 
 </div>
-{% endblock %}
+
+</body>
+</html>
