@@ -24,6 +24,16 @@ class BankDetails(models.Model):
     registered = models.CharField(max_length=50, blank=True, verbose_name="Registered ")
     bank = models.OneToOneField(Bank, verbose_name="Details", null=True, blank=True, related_name="details")
 
+class OperatingHour(models.Model):
+    DAY_CHOICES = (('suday', 'sunday'),
+                   ('monday', 'monday'),
+                   ('tuesday', 'tuesday'),
+                   ('wednesday', 'wednesday'),
+                   ('thursday', 'thursday'),)
+    day = models.CharField(max_length=30, choices=DAY_CHOICES, verbose_name="Day ")
+    start = models.TimeField(verbose_name="Start ")
+    end = models.TimeField(verbose_name="End ")
+    details = models.ForeignKey(BankDetails, verbose_name="Operating Hours ", related_name="operating_hours")
 
 class Branch(models.Model):
     bank = models.ForeignKey(Bank, verbose_name="Bank ")

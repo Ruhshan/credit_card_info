@@ -2,6 +2,7 @@ from rest_framework import serializers, generics, viewsets
 
 from bankinfo.models import Bank, AtmBooth, BankDetails
 
+class
 
 class BankDetailSerializer(serializers.ModelSerializer):
     class Meta:

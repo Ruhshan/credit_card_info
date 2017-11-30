@@ -2,70 +2,30 @@ from django.contrib import admin
 from django import forms
 from splitjson.widgets import SplitJSONWidget
 from bankinfo.models import *
+from nested_inline.admin import NestedStackedInline, NestedModelAdmin, NestedTabularInline
 # Register your models here.
 days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday']
 
+class OperatingHourForm(forms.ModelForm):
+    class Meta:
+        model = OperatingHour
+        fields = ['day', 'start', 'end']
 
-class BankDetailsInline(admin.StackedInline):
+
+class OperatingHourInline(NestedTabularInline):
+    model = OperatingHour
+    max_num = 5
+    form = OperatingHourForm
+
+class BankDetailsInline(NestedStackedInline):
     model = BankDetails
+    inlines = [OperatingHourInline]
 
 
-# class BankForm(forms.ModelForm):
-#     global days
-#
-#     def __init__(self, *args, **kwargs):
-#         super(BankForm, self).__init__(*args, **kwargs)
-#         # if self.instance.operating_hours:
-#         #     o_times = self.instance.operating_hours
-#         #     for d, t in o_times.items():
-#         #         self.fields[d].initial = t
-#
-#     def save(self, commit=True):
-#         global days
-#         instance = super(BankForm, self).save(commit=False)
-#
-#
-#         #instance.operating_hours = {day : self.cleaned_data[day] for day in days}
-#         #instance.operating_hours=[{'day':day, 'start':self.cleaned_data[day].split('to')[0], 'end':self.cleaned_data[day].split('to')[1]} for day in days]
-#
-#
-#         if commit:
-#             instance.save()
-#         return instance
-#
-#     class Meta:
-#         model = Bank
-#         #exclude = ['operating_hours']
-#         fields =  '__all__'
 
-
-class BankAdmin(admin.ModelAdmin):
+class BankAdmin(NestedModelAdmin):
     inlines = [BankDetailsInline,]
-    # fieldsets = (
-    #             ('Basic Info', {'fields': ('name',
-    #                                         'circuit_id',
-    #                                         'status'
-    #                                         )
-    #                             }
-    #              ),
-    #              ('Details', {'fields': ('about',
-    #                                      'email',
-    #                                      'phone',
-    #                                      'camels',
-    #                                      'earning_per_share',
-    #                                      'address',
-    #                                      )
-    #                           }
-    #               ),
-    #              ('Operating Hours',
-    #              {'fields': ('sunday',
-    #                          'monday',
-    #                          'tuesday',
-    #                          'wednesday',
-    #                          'thursday')
-    #               }
-    #               ),
-    #              )
+
 
 admin.site.register(Bank, BankAdmin)
 admin.site.register(Branch)
