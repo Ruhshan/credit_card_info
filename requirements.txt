@@ -1,4 +1,7 @@
 Django==1.11.6
+django-nested-inline==0.3.7
+django-split-json-widget==1.16
+djangorestframework==3.7.3
 numpy==1.13.3
 pandas==0.20.3
 psycopg2==2.7.3.1
