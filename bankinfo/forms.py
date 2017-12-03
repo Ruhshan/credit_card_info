@@ -31,8 +31,9 @@ class BaseForm(forms.Form):
         fieldnames = ["area", "address", "district", "latitude", "longitude"]
         instance.location = {fieldname: self.cleaned_data[fieldname] for fieldname in fieldnames}
 
-        if type(instance) == 'bankinfo.models.Branch':
+        if isinstance(instance, Branch):
             service_names = ["evening_banking", "remitance_transaction", "school_fees"]
+            adf = {fieldname: self.cleaned_data[fieldname] for fieldname in service_names}
             instance.services = {fieldname: self.cleaned_data[fieldname] for fieldname in service_names}
 
         if commit:
@@ -48,6 +49,8 @@ class BranchForm(BaseForm, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        print(self.instance.services is not None)
+
         if self.instance.services:
             for f, d in self.instance.services.items():
                 self.fields[f].initial = d

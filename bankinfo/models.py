@@ -41,7 +41,7 @@ class Branch(models.Model):
     name = models.CharField(max_length=127, verbose_name="Branch Name ")
     status = models.BooleanField(default=True, verbose_name= "Status ")
     location = JSONField(verbose_name="Location ")
-    services = JSONField(verbose_name="Services ", blank=True)
+    services = JSONField(verbose_name="Services ", blank=True, null=True)
 
     def __str__(self):
         return "{} , {} Branch".format(self.bank.name, self.name)
