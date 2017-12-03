@@ -15,10 +15,6 @@ class BaseForm(forms.Form):
     latitude = forms.FloatField(label="Latitude ", initial=0.00)
     longitude = forms.FloatField(label="longitude ", initial=0.00)
 
-    #services
-    evening_banking = forms.BooleanField(label="Evening Banking ", required=False)
-    remitance_transaction = forms.BooleanField(label="Remitance Transaction  ", required=False)
-    school_fees = forms.BooleanField(label="School Fees ", required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,8 +31,9 @@ class BaseForm(forms.Form):
         fieldnames = ["area", "address", "district", "latitude", "longitude"]
         instance.location = {fieldname: self.cleaned_data[fieldname] for fieldname in fieldnames}
 
-        service_names = ["evening_banking", "remitance_transaction", "school_fees"]
-        instance.services = {fieldname: self.cleaned_data[fieldname] for fieldname in service_names}
+        if type(instance) == 'bankinfo.models.Branch':
+            service_names = ["evening_banking", "remitance_transaction", "school_fees"]
+            instance.services = {fieldname: self.cleaned_data[fieldname] for fieldname in service_names}
 
         if commit:
             instance.save()
@@ -44,14 +41,25 @@ class BaseForm(forms.Form):
 
 
 class BranchForm(BaseForm, forms.ModelForm):
+    # services
+    evening_banking = forms.BooleanField(label="Evening Banking ", required=False)
+    remitance_transaction = forms.BooleanField(label="Remitance Transaction  ", required=False)
+    school_fees = forms.BooleanField(label="School Fees ", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.services:
+            for f, d in self.instance.services.items():
+                self.fields[f].initial = d
+
     class Meta:
         model = Branch
-        exclude = ["location"]
+        exclude = ["location", "services"]
 
 
 
 class AtmBoothForm(BaseForm, forms.ModelForm):
     class Meta:
         model = AtmBooth
-        exclude = ["location"]
+        exclude = ["location", "evening_banking", "remitance_transaction", "school_fees"]
 
