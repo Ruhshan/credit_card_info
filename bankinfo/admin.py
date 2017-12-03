@@ -21,6 +21,16 @@ class BankAdmin(NestedModelAdmin):
 
 class BranchAdmin(admin.ModelAdmin):
     form = BranchForm
+    fieldsets = (
+        (None, {
+            'fields': ('bank', 'name', 'status', 'area', 'address', 'district', 'latitude', 'longitude')
+        }),
+        ('Services', {
+            'classes': ('collapse',),
+            'fields': ('evening_banking', 'remitance_transaction', 'school_fees'),
+        }),
+    )
+
 
 class AtmBoothAdmin(admin.ModelAdmin):
     form = AtmBoothForm

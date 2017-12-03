@@ -15,17 +15,28 @@ class BaseForm(forms.Form):
     latitude = forms.FloatField(label="Latitude ", initial=0.00)
     longitude = forms.FloatField(label="longitude ", initial=0.00)
 
+    #services
+    evening_banking = forms.BooleanField(label="Evening Banking ", required=False)
+    remitance_transaction = forms.BooleanField(label="Remitance Transaction  ", required=False)
+    school_fees = forms.BooleanField(label="School Fees ", required=False)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.location:
             for f, d in self.instance.location.items():
                 self.fields[f].initial = d
+        # if self.instance.services:
+        #     for f, d in self.instance.services.items():
+        #         self.fields[f].initial = d
 
     def save(self, commit=True):
         instance = super().save(commit=False)
 
         fieldnames = ["area", "address", "district", "latitude", "longitude"]
         instance.location = {fieldname: self.cleaned_data[fieldname] for fieldname in fieldnames}
+
+        service_names = ["evening_banking", "remitance_transaction", "school_fees"]
+        instance.services = {fieldname: self.cleaned_data[fieldname] for fieldname in service_names}
 
         if commit:
             instance.save()
@@ -36,6 +47,7 @@ class BranchForm(BaseForm, forms.ModelForm):
     class Meta:
         model = Branch
         exclude = ["location"]
+
 
 
 class AtmBoothForm(BaseForm, forms.ModelForm):

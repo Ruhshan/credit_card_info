@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', admin.site.urls),
-    url(r'^bank/', include('bankinfo.urls'))
+    url(r'^api/v1/bank/', include('bankinfo.urls'))
     #url(r'^cardinfo/', include('cardinfo.urls'))
 ]
