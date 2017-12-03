@@ -6,7 +6,7 @@ class Bank(models.Model):
     name = models.CharField(max_length=127, verbose_name="Name ")
     status = models.BooleanField(default=True)
     circuit_id = models.IntegerField(verbose_name="Circuit ID ")
-    earning_per_share = models.DecimalField(decimal_places=3, max_digits=10, verbose_name="Earnings Per Share ")
+
 
     def __unicode__(self):
         return self.name
@@ -23,6 +23,7 @@ class BankDetails(models.Model):
     address = models.TextField(blank=True, verbose_name="Address ")
     registered = models.CharField(max_length=50, blank=True, verbose_name="Registered ")
     bank = models.OneToOneField(Bank, verbose_name="Details", null=True, blank=True, related_name="details")
+    earning_per_share = models.DecimalField(decimal_places=3, max_digits=10, verbose_name="Earnings Per Share ")
 
 class OperatingHour(models.Model):
     DAY_CHOICES = (('suday', 'sunday'),
