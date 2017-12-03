@@ -1,11 +1,11 @@
 {% extends "admin/base.html" %}
-
+{% load static %}
 {% block title %}J360 Card Mapping Tool{% endblock %}
 
 {% block branding %}
     <h1 id="site-name">
         <a href="{% url 'admin:index' %}">
-            <span><img src="https://s33.postimg.org/gnjmb2l7j/Jamuna360_logo.png" alt="j360-logo" width="50" height="50">
+            <span><img src="{% static "admin/img/JamunaBankMobileApp.svg" %}" alt="j360-logo" width="50" height="50">
             </span> Jamuna Bank Mobile App Card Mapping Tool</a></h1>
 {% endblock %}
 
