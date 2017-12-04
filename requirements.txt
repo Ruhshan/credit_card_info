@@ -1,4 +1,5 @@
 Django==1.11.6
+django-cors-headers==2.1.0
 django-nested-inline==0.3.7
 django-split-json-widget==1.16
 djangorestframework==3.7.3
