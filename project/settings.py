@@ -143,3 +143,5 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 UIDX = ""
+
+CORS_ORIGIN_ALLOW_ALL = True
